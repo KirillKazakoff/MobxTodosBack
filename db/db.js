@@ -31,10 +31,16 @@ class Db {
         return true;
     }
 
-    getTodoInfo(userId, id) {
+    addTodo(userId, todo) {
         const user = this.users.find((u) => u.id === userId);
-        if (!user) throw new Error('404');
+        const match = user.todos.find((t) => t.id === todo.id);
+        if (match) throw new Error('400');
 
+        user.todos.push(todo);
+    }
+
+    getTodoInfo(userId, id) {
+        const user = this.getUser(userId);
         const todoIndex = user.todos.findIndex((todo) => todo.id === id);
         if (todoIndex === -1) throw new Error('404');
 

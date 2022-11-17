@@ -21,6 +21,11 @@ router.post('/users', async (ctx) => {
     request(() => db.addUser(user), ctx);
 });
 
+router.post('users/:userId', async (ctx) => {
+    const todo = ctx.request.body;
+    request(() => db.add(todo), ctx);
+});
+
 // get router
 router.get('/users/:id', async (ctx) => {
     const res = request(() => db.getUser(ctx.params.id), ctx);
