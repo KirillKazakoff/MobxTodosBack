@@ -6,7 +6,9 @@ const router = new Router();
 const request = (callback, ctx) => {
     try {
         const res = callback();
-        return res;
+        if (ctx.method === 'GET') return res;
+        ctx.response.body = { ok: 'ok' };
+        return true;
     } catch (e) {
         ctx.response.status = +e.message;
         return false;
@@ -16,8 +18,7 @@ const request = (callback, ctx) => {
 // post router
 router.post('/users', async (ctx) => {
     const user = ctx.request.body;
-    const res = request(() => db.addUser(user), ctx);
-    if (res) ctx.response.body = { ok: 'ok' };
+    request(() => db.addUser(user), ctx);
 });
 
 // get router
@@ -26,18 +27,14 @@ router.get('/users/:id', async (ctx) => {
     ctx.response.body = res;
 });
 
-router.post('/users', async (ctx) => {
-    db.addUser(ctx.request.body);
+router.delete('/users/:userId/:id', async (ctx) => {
+    const { userId, id } = ctx.params;
+    request(() => db.deleteTodo(userId, id), ctx);
 });
 
-router.delete('/users/todos/:id', async (ctx) => {
-    db.delete(ctx.params.id);
-});
-
-router.get('/message/getFilesDataFiltered/:filter', async (ctx) => {
-    const { filter } = ctx.params;
-    const result = db.getFilesDataFiltered(filter);
-    ctx.response.body = result;
+router.patch('/users/:userId/:id', async (ctx) => {
+    const { userId, id } = ctx.params;
+    request(() => db.checkTodo(userId, id), ctx);
 });
 
 export default router;
