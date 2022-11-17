@@ -27,7 +27,7 @@ class Db {
 
     checkTodo(userId, id) {
         const { user, todoIndex } = this.getTodoInfo(userId, id);
-        user.todos[todoIndex].status = !user.todos[todoIndex].status;
+        user.todos[todoIndex].isChecked = !user.todos[todoIndex].isChecked;
         return true;
     }
 
