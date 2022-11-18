@@ -41,7 +41,6 @@ router.delete('/users/:userId/:id', async (ctx) => {
 router.patch('/users/:userId/:id', async (ctx) => {
     const { userId, id } = ctx.params;
     request(() => db.checkTodo(userId, id), ctx);
-    console.log('patched');
 });
 
 export default router;
