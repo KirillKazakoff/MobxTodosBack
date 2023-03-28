@@ -38,10 +38,10 @@ router.delete('/users/:userId/:id', async (ctx) => {
     request(() => db.deleteTodo(userId, id), ctx);
 });
 
-router.patch('/users/:userId/:id', async (ctx) => {
+// patch prev
+router.post('/users/:userId/:id', async (ctx) => {
     const { userId, id } = ctx.params;
     request(() => db.checkTodo(userId, id), ctx);
-    console.log('patched');
 });
 
 export default router;
